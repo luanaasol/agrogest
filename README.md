@@ -9,6 +9,9 @@ campanhas agrícolas, cultivos e colheitas, e a vender produtos a clientes com e
 Não há base de dados: os dados vivem em **listas em memória (RAM)** e são **serializados para um
 ficheiro `.ser`**.
 
+Documentos: enunciado em `docs/enunciado.pdf` e manual de utilização em
+`docs/AgroGest_Manual_de_Utilizacao.pdf`.
+
 ## 1. Grupo
 
 | Nome | Número |
