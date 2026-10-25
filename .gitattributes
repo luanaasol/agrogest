@@ -1,0 +1,5 @@
+# Scripts e servico para Linux: manter fim de linha LF (com CRLF o bash falha)
+*.sh      text eol=lf
+*.service text eol=lf
+# Scripts do Windows
+*.bat     text eol=crlf

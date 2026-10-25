@@ -1,0 +1,73 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%-- Formato numérico: milhares com "." e decimais com "," (ex.: 70.400,00 MT) --%>
+<fmt:setLocale value="pt_BR" />
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
+<c:set var="u" value="${sessionScope.utilizador}" />
+<%-- Rota original do pedido (antes do forward para a JSP), para destacar a pagina ativa no menu --%>
+<c:set var="rota" value="${requestScope['jakarta.servlet.forward.servlet_path']}" />
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AgroGest - <c:out value="${titulo}" /></title>
+    <%-- Tipos de letra Inter e Poppins (sem internet, o CSS usa as fontes do sistema) --%>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap">
+    <link rel="stylesheet" href="${ctx}/css/estilo.css">
+</head>
+<body>
+<header class="topo">
+    <div class="topo-inner">
+        <a class="marca" href="${ctx}/">
+            <svg class="marca-icone" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="#BFE3C6"/><path d="M9 22c0-8 5-13 14-13 0 9-5 14-13 14l-1 1z" fill="#377F53"/><path d="M10 22l8-8" stroke="#F4FAF5" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <span>Agro<b>Gest</b></span>
+        </a>
+        <c:if test="${not empty u}">
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="menu-botao"><span class="hamburguer"></span>Menu</label>
+            <nav class="menu">
+                <c:choose>
+                    <c:when test="${u.admin}">
+                        <a href="${ctx}/admin/dashboard" class="${rota == '/admin/dashboard' ? 'ativo' : ''}">Painel</a>
+                        <a href="${ctx}/admin/fornecedores" class="${rota == '/admin/fornecedores' ? 'ativo' : ''}">Fornecedores</a>
+                        <a href="${ctx}/admin/produtos" class="${rota == '/admin/produtos' ? 'ativo' : ''}">Produtos</a>
+                        <a href="${ctx}/admin/campanhas" class="${rota == '/admin/campanhas' ? 'ativo' : ''}">Campanhas</a>
+                        <a href="${ctx}/admin/cultivos" class="${rota == '/admin/cultivos' ? 'ativo' : ''}">Cultivos</a>
+                        <a href="${ctx}/admin/colheitas" class="${rota == '/admin/colheitas' ? 'ativo' : ''}">Colheitas</a>
+                        <a href="${ctx}/admin/listagens" class="${rota == '/admin/listagens' ? 'ativo' : ''}">Listagens</a>
+                        <a href="${ctx}/admin/relatorios" class="${rota == '/admin/relatorios' ? 'ativo' : ''}">Relatórios</a>
+                        <a href="${ctx}/admin/persistencia" class="${rota == '/admin/persistencia' ? 'ativo' : ''}">Persistência</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${ctx}/catalogo" class="${rota == '/catalogo' ? 'ativo' : ''}">Catálogo</a>
+                        <a href="${ctx}/carrinho" class="${rota == '/carrinho' ? 'ativo' : ''}">Carrinho
+                            <c:if test="${not empty sessionScope.carrinho and sessionScope.carrinho.numeroItens > 0}">
+                                <span class="contador">${sessionScope.carrinho.numeroItens}</span>
+                            </c:if>
+                        </a>
+                        <a href="${ctx}/minhas-compras" class="${rota == '/minhas-compras' ? 'ativo' : ''}">Minhas compras</a>
+                    </c:otherwise>
+                </c:choose>
+                <span class="quem"><span class="avatar"><c:out value="${fn:substring(u.nome, 0, 1)}" /></span><c:out value="${u.nome}" /></span>
+                <a href="${ctx}/logout" class="sair">Sair</a>
+            </nav>
+        </c:if>
+    </div>
+</header>
+<main class="conteudo">
+    <c:if test="${not empty sessionScope.msgSucesso}">
+        <div class="alerta sucesso"><c:out value="${sessionScope.msgSucesso}" /></div>
+        <c:remove var="msgSucesso" scope="session" />
+    </c:if>
+    <c:if test="${not empty sessionScope.msgErro}">
+        <div class="alerta erro"><c:out value="${sessionScope.msgErro}" /></div>
+        <c:remove var="msgErro" scope="session" />
+    </c:if>
+    <c:if test="${not empty erro}">
+        <div class="alerta erro"><c:out value="${erro}" /></div>
+    </c:if>

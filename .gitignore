@@ -1,0 +1,10 @@
+target/
+*.ser
+*.class
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+*.corrompido

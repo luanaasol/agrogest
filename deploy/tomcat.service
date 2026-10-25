@@ -1,0 +1,43 @@
+# Servico systemd para o Apache Tomcat 10.1 (AgroGest)
+# O install-tomcat.sh copia este ficheiro para /etc/systemd/system/tomcat.service
+# e substitui o JAVA_HOME pelo caminho detetado na maquina.
+#
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now tomcat
+#   sudo systemctl status tomcat
+#
+# "systemctl stop tomcat" corre o shutdown.sh: o Tomcat encerra de forma normal, o
+# AppListener.contextDestroyed() e chamado e o estado fica gravado em /opt/tomcat/data/agrogest.ser.
+
+[Unit]
+Description=Apache Tomcat 10.1 - AgroGest
+After=network.target
+
+[Service]
+# startup.sh lanca o Java em segundo plano e termina: por isso o tipo e "forking"
+Type=forking
+User=tomcat
+Group=tomcat
+UMask=0007
+
+Environment="JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64"
+Environment="CATALINA_HOME=/opt/tomcat"
+Environment="CATALINA_BASE=/opt/tomcat"
+# O PID e escrito pelo catalina.sh; o systemd usa-o para saber qual e o processo principal
+Environment="CATALINA_PID=/opt/tomcat/temp/tomcat.pid"
+Environment="CATALINA_OPTS=-Xms256M -Xmx512M -Dfile.encoding=UTF-8"
+
+ExecStart=/opt/tomcat/bin/startup.sh
+# Espera ate 30 s pelo encerramento normal (que grava o .ser) e so depois forca
+ExecStop=/opt/tomcat/bin/shutdown.sh 30 -force
+PIDFile=/opt/tomcat/temp/tomcat.pid
+
+# 143 = terminado por SIGTERM: e um fim normal para a JVM
+SuccessExitStatus=143
+TimeoutStartSec=90
+TimeoutStopSec=45
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
