@@ -106,6 +106,11 @@ As vistas JSP estão em `src/main/webapp/WEB-INF/views` (não são acessíveis d
 navegador). O CSS está em `src/main/webapp/css/estilo.css` e as fotos dos produtos iniciais em
 `src/main/webapp/img`.
 
+No ecrã do computador, as páginas Painel, Catálogo, Carrinho e Minhas compras têm uma fotografia
+agrícola decorativa à direita (`src/main/webapp/img/lado`), que fica escondida no telemóvel e na
+impressão. Os cartões de totais (no painel do admin e nas páginas do cliente) mostram o nome em
+maiúsculas, em verde claro, por trás do número.
+
 ### Modelo de domínio
 
 ```

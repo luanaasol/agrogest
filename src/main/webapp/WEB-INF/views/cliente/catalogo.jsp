@@ -1,7 +1,13 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <c:set var="titulo" value="Catálogo" />
+<c:set var="imagemLado" value="lado-catalogo.jpg" />
 <%@ include file="/WEB-INF/views/fragmentos/topo.jspf" %>
 <h1>Catálogo de produtos</h1>
+
+<div class="indicadores">
+    <div class="indicador i2" style="--n:8"><span>Produtos</span><strong>${fn:length(produtos)}</strong></div>
+    <a class="indicador i4" href="${ctx}/carrinho" style="--n:8"><span>Carrinho</span><strong>${empty sessionScope.carrinho ? 0 : sessionScope.carrinho.numeroItens}</strong></a>
+</div>
 
 <form method="get" action="${ctx}/catalogo" class="filtros">
     <label>Categoria

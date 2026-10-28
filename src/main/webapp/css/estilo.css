@@ -25,6 +25,7 @@
     --fonte-titulos: "Poppins", var(--fonte);
 }
 
+
 * { box-sizing: border-box; }
 
 html { -webkit-text-size-adjust: 100%; }
@@ -214,27 +215,49 @@ input:focus, select:focus, textarea:focus {
 .estado.aberta { background: var(--pastel-2); color: var(--acento-escuro); }
 .estado.fechada { background: #EEF1EF; color: var(--cinza); }
 
-/* ---------- Painel ---------- */
+/* ---------- Painel (cartoes com totais) ----------
+   A palavra fica atras, grande, em maiusculas e num verde claro (Poppins, como os titulos);
+   o numero fica a frente, num verde escuro. */
 .indicadores { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; margin-bottom: 1.6rem; }
 .indicador {
-    position: relative; overflow: hidden; display: flex; flex-direction: column; gap: .3rem;
-    background: var(--branco); border: 1px solid var(--borda); border-radius: var(--raio);
-    padding: 1.2rem 1.25rem; text-decoration: none; color: var(--texto); box-shadow: var(--sombra);
+    position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
+    container-type: inline-size; min-height: 118px; background: var(--branco); border: 1px solid var(--borda); border-radius: var(--raio);
+    padding: 1rem 1.25rem; text-decoration: none; color: var(--texto); box-shadow: var(--sombra);
     transition: transform .15s, box-shadow .15s;
 }
-.indicador::after {
-    content: ""; position: absolute; right: -28px; top: -28px; width: 96px; height: 96px; border-radius: 50%;
-    background: var(--cor, var(--pastel-2)); opacity: .9;
+a.indicador:hover { transform: translateY(-2px); box-shadow: var(--sombra-forte); color: var(--texto); }
+.indicador span {
+    /* a palavra fica por tras da parte de cima do numero */
+    position: absolute; z-index: 0; left: 1rem; right: -2rem; bottom: 3.05rem;
+    font-family: var(--fonte-titulos); font-weight: 700; text-transform: uppercase;
+    /* o tamanho ajusta-se a largura do cartao e ao numero de letras (--n) */
+    font-size: clamp(1.35rem, calc((100cqi - 2rem) / var(--n, 8) * 1.3), 2.8rem); line-height: 1; letter-spacing: -.01em; white-space: nowrap;
+    color: var(--cor, var(--pastel-3));
 }
-.indicador:hover { transform: translateY(-2px); box-shadow: var(--sombra-forte); color: var(--texto); }
-.indicador span { position: relative; z-index: 1; color: var(--cinza); font-weight: 500; font-size: .9rem; }
-.indicador strong { position: relative; z-index: 1; font-family: var(--fonte-titulos); font-size: 2.2rem; font-weight: 600; color: var(--acento-escuro); line-height: 1.1; }
-.indicador.i1 { --cor: #DCEFE0; }
-.indicador.i2 { --cor: #E3F2D9; }
-.indicador.i3 { --cor: #D6EEE6; }
+.indicador strong {
+    position: relative; z-index: 1; font-family: var(--fonte-titulos); font-size: 2.6rem; font-weight: 700;
+    color: var(--acento-escuro); line-height: 1;
+}
+.indicador strong small { font-size: .45em; font-weight: 600; }
+.indicador.largo strong { font-size: 2rem; }
+/* Painel do admin: 5 cartoes em 3 + 2 (as palavras ficam grandes e inteiras) */
+.indicadores.cinco { grid-template-columns: repeat(6, 1fr); }
+.indicadores.cinco .indicador { grid-column: span 2; }
+.indicadores.cinco .indicador:nth-child(n+4) { grid-column: span 3; }
+.indicador.i1 { --cor: #CDE8D3; }
+.indicador.i2 { --cor: #D3EBC6; }
+.indicador.i3 { --cor: #C6E6DA; }
 .indicador.i4 { --cor: #BFE3C6; }
-.indicador.i5 { --cor: #E8F3DF; }
+.indicador.i5 { --cor: #D6EBC9; }
 .atalhos { display: flex; flex-wrap: wrap; gap: .6rem; }
+
+/* ---------- Faixa lateral com fotografia (so decorativa) ---------- */
+.com-lado { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 1.6rem; align-items: start; }
+.lado {
+    position: sticky; top: 90px; height: calc(100vh - 130px); min-height: 420px; max-height: 760px;
+    border-radius: 20px; background: var(--pastel-2) center / cover no-repeat;
+    box-shadow: var(--sombra-forte); border: 1px solid var(--borda);
+}
 
 /* ---------- Catalogo ---------- */
 .filtros {
@@ -319,6 +342,8 @@ kbd {
 /* ---------- Responsivo (tablet) ---------- */
 @media (max-width: 980px) {
     .menu a { padding: .4rem .6rem; font-size: .88rem; }
+    .com-lado { grid-template-columns: minmax(0, 1fr); }
+    .lado { display: none; }
 }
 
 /* ---------- Responsivo (telemovel) ---------- */
@@ -355,8 +380,13 @@ kbd {
     .auth-arte ul { display: none; }
     .auth-form { padding: 1.5rem 1.4rem; }
     .grelha-form { grid-template-columns: 1fr; }
-    .indicadores { grid-template-columns: repeat(2, 1fr); gap: .7rem; }
-    .indicador strong { font-size: 1.8rem; }
+    .indicadores { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+    .indicador { min-height: 100px; }
+    .indicadores.cinco { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .indicadores.cinco .indicador, .indicadores.cinco .indicador:nth-child(n+4) { grid-column: auto; }
+    .indicadores.cinco .indicador:last-child { grid-column: 1 / -1; }
+    .indicador strong { font-size: 2rem; }
+    .indicador.largo { grid-column: 1 / -1; }
     .separadores { border-radius: var(--raio); width: 100%; }
     .filtros { max-width: none; }
     .factura { padding: 1.2rem; }
@@ -367,7 +397,7 @@ kbd {
 /* ---------- Impressao da factura (preto e branco, A4) ---------- */
 @page { size: A4; margin: 15mm; }
 @media print {
-    .topo, .rodape, .nao-imprimir, .alerta { display: none !important; }
+    .topo, .rodape, .nao-imprimir, .alerta, .lado { display: none !important; }
     body { background: #fff !important; color: #000; font-size: 12pt; display: block; }
     .conteudo { padding: 0; max-width: none; }
     .factura { border: none; padding: 0; max-width: none; box-shadow: none; }

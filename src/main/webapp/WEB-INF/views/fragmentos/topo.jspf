@@ -18,7 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap">
-    <link rel="stylesheet" href="${ctx}/css/estilo.css">
+    <link rel="stylesheet" href="${ctx}/css/estilo.css?v=4">
 </head>
 <body>
 <header class="topo">
@@ -60,6 +60,8 @@
     </div>
 </header>
 <main class="conteudo">
+<%-- Faixa lateral com fotografia: a pagina define "imagemLado" antes de incluir o topo --%>
+<c:if test="${not empty imagemLado}"><div class="com-lado"><div class="principal"></c:if>
     <c:if test="${not empty sessionScope.msgSucesso}">
         <div class="alerta sucesso"><c:out value="${sessionScope.msgSucesso}" /></div>
         <c:remove var="msgSucesso" scope="session" />

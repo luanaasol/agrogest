@@ -1,3 +1,7 @@
+<c:if test="${not empty imagemLado}">
+    </div>
+    <aside class="lado" style="background-image: url('${ctx}/img/lado/${imagemLado}')" aria-hidden="true"></aside>
+</div></c:if>
 </main>
 <footer class="rodape">
     AgroGest &middot; Sistema de Gestão Agrícola &middot; Província de Nampula

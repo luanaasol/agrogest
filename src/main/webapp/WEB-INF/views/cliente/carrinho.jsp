@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <c:set var="titulo" value="Carrinho" />
+<c:set var="imagemLado" value="lado-carrinho.jpg" />
 <%@ include file="/WEB-INF/views/fragmentos/topo.jspf" %>
 <h1>Carrinho de compras</h1>
 
