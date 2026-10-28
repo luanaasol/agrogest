@@ -9,8 +9,17 @@ campanhas agrícolas, cultivos e colheitas, e a vender produtos a clientes com e
 Não há base de dados: os dados vivem em **listas em memória (RAM)** e são **serializados para um
 ficheiro `.ser`**.
 
-Documentos: enunciado em `docs/enunciado.pdf` e manual de utilização em
-`docs/AgroGest_Manual_de_Utilizacao.pdf`.
+### Entregáveis neste repositório
+
+| Entregável | Onde está |
+|---|---|
+| Código-fonte completo (projeto Maven) | `src/`, `pom.xml` |
+| Ficheiro WAR pronto a publicar | [`entrega/agrogest.war`](entrega/agrogest.war) |
+| README (instalação, deploy, credenciais, arquitetura) | este ficheiro |
+| Manual de utilização (admin e cliente) | [`docs/AgroGest_Manual_de_Utilizacao.pdf`](docs/AgroGest_Manual_de_Utilizacao.pdf) (e `.docx`) |
+| Guia de instalação e deploy | [`docs/AgroGest_Guia_de_Instalacao.pdf`](docs/AgroGest_Guia_de_Instalacao.pdf) (e `.docx`) |
+| Scripts de deploy em Ubuntu com systemd | [`deploy/`](deploy/) |
+| Enunciado do trabalho | [`docs/enunciado.pdf`](docs/enunciado.pdf) |
 
 ## 1. Grupo
 
